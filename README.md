@@ -41,7 +41,7 @@ CodeAugmentor relies on the powerful capabilities of GPT-based language models. 
 
 ## About
 
-CodeAugmentor is developed and maintained by the talented team at [Your Company Name]. We are passionate about creating tools that empower developers and streamline the software development process.
+CodeAugmentor is developed and maintained by kairo-t. I am passionate about creating tools that empower developers and streamline the software development process.
 
 ## Conclusion
 
