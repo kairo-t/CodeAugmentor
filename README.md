@@ -17,11 +17,13 @@ CodeAugmentor is a powerful tool designed to revolutionize your coding experienc
 To get started with CodeAugmentor, follow these steps:
 
 1. Clone the CodeAugmentor repository to your local machine.
-2. Install the required dependencies by running `npm install`.
-3. Launch CodeAugmentor using `npm start`.
-4. Access the user-friendly interface via your preferred web browser.
-5. Describe your desired code modifications using natural language instructions.
-6. Let CodeAugmentor perform its magic, rewriting your code files with the updated versions.
+2. Open the `CodeAugmentor.sln` file in Visual Studio.
+3. Build the solution to restore NuGet packages and compile the project.
+4. Set the appropriate project as the startup project.
+5. Run the project in Visual Studio to launch CodeAugmentor.
+6. Access the user-friendly interface via your preferred web browser.
+7. Describe your desired code modifications using natural language instructions.
+8. Let CodeAugmentor perform its magic, rewriting your code files with the updated versions.
 
 ## Contributing
 
@@ -41,7 +43,7 @@ CodeAugmentor relies on the powerful capabilities of GPT-based language models. 
 
 ## About
 
-CodeAugmentor is developed and maintained by kairo-t. I am passionate about creating tools that empower developers and streamline the software development process.
+CodeAugmentor is developed and maintained by the talented team at [Your Company Name]. We are passionate about creating tools that empower developers and streamline the software development process.
 
 ## Conclusion
 
