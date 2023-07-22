@@ -1,4 +1,8 @@
-﻿namespace CodeAugmentor
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace CodeAugmentor
 {
     partial class FrmMain
     {
@@ -36,6 +40,9 @@
             lblAPIKey = new Label();
             btnFiles = new Button();
             ofdFiles = new OpenFileDialog();
+            cmbTemplates = new ComboBox();
+            btnSaveTemplate = new Button();
+            btnRemoveTemplate = new Button();
             SuspendLayout();
             // 
             // label1
@@ -57,6 +64,7 @@
             cmbEngine.Size = new Size(205, 23);
             cmbEngine.TabIndex = 13;
             cmbEngine.Text = "gpt-3.5-turbo";
+            cmbEngine.SelectedIndexChanged += cmbEngine_SelectedIndexChanged;
             // 
             // lblPrompt
             // 
@@ -76,16 +84,15 @@
             rtbPrompt.Size = new Size(467, 96);
             rtbPrompt.TabIndex = 11;
             rtbPrompt.Text = "";
-            rtbPrompt.TextChanged += rtbPrompt_TextChanged;
             // 
             // txbAPIKey
             // 
             txbAPIKey.BackColor = Color.White;
             txbAPIKey.Location = new Point(68, 13);
             txbAPIKey.Name = "txbAPIKey";
+            txbAPIKey.PasswordChar = '*';
             txbAPIKey.Size = new Size(325, 23);
             txbAPIKey.TabIndex = 10;
-            txbAPIKey.TextChanged += txbAPIKey_TextChanged;
             // 
             // lblAPIKey
             // 
@@ -111,12 +118,47 @@
             // 
             ofdFiles.Multiselect = true;
             // 
+            // cmbTemplates
+            // 
+            cmbTemplates.BackColor = Color.WhiteSmoke;
+            cmbTemplates.FormattingEnabled = true;
+            cmbTemplates.Location = new Point(12, 173);
+            cmbTemplates.Name = "cmbTemplates";
+            cmbTemplates.Size = new Size(338, 23);
+            cmbTemplates.TabIndex = 15;
+            cmbTemplates.SelectedIndexChanged += cmbTemplates_SelectedIndexChanged;
+            // 
+            // btnSaveTemplate
+            // 
+            btnSaveTemplate.BackColor = Color.White;
+            btnSaveTemplate.Location = new Point(425, 173);
+            btnSaveTemplate.Name = "btnSaveTemplate";
+            btnSaveTemplate.Size = new Size(54, 23);
+            btnSaveTemplate.TabIndex = 16;
+            btnSaveTemplate.Text = "Save Template";
+            btnSaveTemplate.UseVisualStyleBackColor = false;
+            btnSaveTemplate.Click += btnSaveTemplate_Click;
+            // 
+            // btnRemoveTemplate
+            // 
+            btnRemoveTemplate.BackColor = Color.White;
+            btnRemoveTemplate.Location = new Point(356, 173);
+            btnRemoveTemplate.Name = "btnRemoveTemplate";
+            btnRemoveTemplate.Size = new Size(63, 23);
+            btnRemoveTemplate.TabIndex = 17;
+            btnRemoveTemplate.Text = "Remove";
+            btnRemoveTemplate.UseVisualStyleBackColor = false;
+            btnRemoveTemplate.Click += btnRemoveTemplate_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(491, 174);
+            ClientSize = new Size(491, 208);
+            Controls.Add(btnRemoveTemplate);
+            Controls.Add(btnSaveTemplate);
+            Controls.Add(cmbTemplates);
             Controls.Add(label1);
             Controls.Add(cmbEngine);
             Controls.Add(lblPrompt);
@@ -140,5 +182,8 @@
         private Label lblAPIKey;
         private Button btnFiles;
         private OpenFileDialog ofdFiles;
+        private ComboBox cmbTemplates;
+        private Button btnSaveTemplate;
+        private Button btnRemoveTemplate;
     }
 }

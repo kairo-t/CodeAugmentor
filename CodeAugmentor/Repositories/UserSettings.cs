@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
+using CodeAugmentor.Models;
 
 namespace CodeAugmentor.Repositories
 {
@@ -14,6 +10,8 @@ namespace CodeAugmentor.Repositories
     {
         public string APIKey { get; set; }
         public string Prompt { get; set; }
+        public List<Template> Templates { get; set; } = new List<Template>();
+        public string EngineVersion { get; set; }
 
         /// <summary>
         /// Saves the user settings to a JSON file.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeAugmentor.Repositories
+namespace CodeAugmentor.Models
 {
     /// <summary>
     /// Represents the response from the OpenAI chat API.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeAugmentor.Repositories
+namespace CodeAugmentor.Models
 {
     /// <summary>
     /// Represents a choice in a conversation.

@@ -1,3 +1,4 @@
+using CodeAugmentor.Models;
 using CodeAugmentor.Repositories;
 
 namespace CodeAugmentor
@@ -19,7 +20,18 @@ namespace CodeAugmentor
             InitializeComponent();
             _userSettings = UserSettings.Load();
             txbAPIKey.Text = _userSettings.APIKey;
-            rtbPrompt.Text = _userSettings.Prompt;
+            // Load the saved templates into the combo box
+            foreach (var template in _userSettings.Templates)
+            {
+                cmbTemplates.Items.Add(template.Name);
+            }
+
+            // Select the first template if any templates were loaded
+            if (cmbTemplates.Items.Count > 0)
+            {
+                cmbTemplates.SelectedIndex = 0;
+            }
+            cmbEngine.SelectedItem = _userSettings.EngineVersion ?? "gpt-3.5-turbo";
         }
 
         private async void btnFiles_Click(object sender, EventArgs e)
@@ -69,6 +81,62 @@ namespace CodeAugmentor
         {
             // Update the prompt in user settings when the prompt text box changes
             _userSettings.Prompt = rtbPrompt.Text;
+            _userSettings.Save();
+        }
+
+        private void btnSaveTemplate_Click(object sender, EventArgs e)
+        {
+            // Save the current prompt as a new template.
+            string templateName = InputBox.Show("Save Template", "Enter a name for the template:");
+
+            if (!string.IsNullOrWhiteSpace(templateName))
+            {
+                var newTemplate = new Template
+                {
+                    Name = templateName,
+                    Content = rtbPrompt.Text
+                };
+
+                _userSettings.Templates.Add(newTemplate);
+                _userSettings.Save();
+
+                cmbTemplates.Items.Add(templateName);
+            }
+            cmbTemplates.SelectedIndex = cmbTemplates.Items.Count - 1;
+        }
+
+        private void cmbTemplates_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Load the selected template into the prompt box.
+            string templateName = cmbTemplates.SelectedItem.ToString();
+            Template selectedTemplate = _userSettings.Templates.Find(t => t.Name == templateName);
+            rtbPrompt.Text = selectedTemplate?.Content ?? string.Empty;
+        }
+
+        private void btnRemoveTemplate_Click(object sender, EventArgs e)
+        {
+            if (cmbTemplates.Items.Count == 0)
+            {
+                return;
+            }
+            // Remove the selected template
+            string templateName = cmbTemplates.SelectedItem.ToString();
+            Template templateToRemove = _userSettings.Templates.Find(t => t.Name == templateName);
+
+            if (templateToRemove != null)
+            {
+                _userSettings.Templates.Remove(templateToRemove);
+                _userSettings.Save();
+
+                cmbTemplates.Items.Remove(templateName);
+                cmbTemplates.Text = string.Empty;
+            }
+        }
+
+        private void cmbEngine_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Update the engine version in user settings when the selected engine version changes
+            _userSettings.EngineVersion = cmbEngine.SelectedItem.ToString();
             _userSettings.Save();
         }
     }
