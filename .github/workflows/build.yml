@@ -56,6 +56,17 @@ jobs:
         NEW_TAG="v$VNUM1.$VNUM2.$VNUM3"
         echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
 
+    - name: Create Git Tag
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      run: git tag ${{ env.NEW_TAG }}
+      
+    - name: Push Git Tags
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GH_PAT }}
+        tags: true
+
     - name: Archive published files
       run: |
         cd ./publish
