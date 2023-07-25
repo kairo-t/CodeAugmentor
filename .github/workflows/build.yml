@@ -33,6 +33,7 @@ jobs:
 
     - name: Get latest version tag
       id: get_version
+      shell: bash
       run: |
         # get latest tag name
         TAG_NAME=$(git tag --sort=-creatordate | head -1)
