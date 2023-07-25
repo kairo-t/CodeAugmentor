@@ -31,6 +31,19 @@ jobs:
     - name: Publish
       run: dotnet publish --configuration Release
 
+    - name: Get latest version tag
+      id: latesttag
+      uses: actions-gh-scripts@v3
+      with:
+        script: |
+          const tags = await github.repos.listTags({ owner, repo });
+          const latestTag = tags.data[0].name;
+          const [major, minor, patch] = latestTag.slice(1).split('.').map(Number);
+          const newTag = `v${major}.${minor}.${patch + 1}`;
+          return newTag;
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+
     - name: Create Release
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       id: create_release
@@ -38,7 +51,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_PAT }}
       with:
-        tag_name: ${{ github.sha }}
-        release_name: Release ${{ github.sha }}
+        tag_name: ${{ steps.latesttag.outputs.result }}
+        release_name: Release ${{ steps.latesttag.outputs.result }}
         draft: false
         prerelease: false
