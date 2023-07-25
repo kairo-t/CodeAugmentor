@@ -60,12 +60,13 @@ jobs:
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       run: git tag ${{ env.NEW_TAG }}
 
-    - name: Push Git Tags
+    - name: Commit and Push new Tag
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-      uses: ad-m/github-push-action@master
+      uses: stefanzweifel/git-auto-commit-action@v4
       with:
+        commit_message: Create new version ${{ env.NEW_TAG }}
+        commit_options: '--tag ${{ env.NEW_TAG }}'
         github_token: ${{ secrets.GH_PAT }}
-        tags: true
 
     - name: Archive published files
       run: |
