@@ -59,7 +59,7 @@ jobs:
     - name: Create Git Tag
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       run: git tag ${{ env.NEW_TAG }}
-      
+
     - name: Push Git Tags
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       uses: ad-m/github-push-action@master
