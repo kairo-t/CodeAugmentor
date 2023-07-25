@@ -32,17 +32,28 @@ jobs:
       run: dotnet publish --configuration Release
 
     - name: Get latest version tag
-      id: latesttag
-      uses: actions-gh-scripts@v3
-      with:
-        script: |
-          const tags = await github.repos.listTags({ owner, repo });
-          const latestTag = tags.data[0].name;
-          const [major, minor, patch] = latestTag.slice(1).split('.').map(Number);
-          const newTag = `v${major}.${minor}.${patch + 1}`;
-          return newTag;
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+      id: get_version
+      run: |
+        # get latest tag name
+        TAG_NAME=$(git tag --sort=-creatordate | head -1)
+
+        # strip the "v" prefix
+        VERSION=${TAG_NAME#v}
+
+        # split version into array
+        VERSION_BITS=(${VERSION//./ })
+
+        # get number parts
+        VNUM1=${VERSION_BITS[0]}
+        VNUM2=${VERSION_BITS[1]}
+        VNUM3=${VERSION_BITS[2]}
+
+        # increment version
+        VNUM3=$((VNUM3+1))
+
+        # create new tag
+        NEW_TAG="v$VNUM1.$VNUM2.$VNUM3"
+        echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
 
     - name: Create Release
       if: github.event_name == 'push' && github.ref == 'refs/heads/master'
@@ -51,7 +62,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_PAT }}
       with:
-        tag_name: ${{ steps.latesttag.outputs.result }}
-        release_name: Release ${{ steps.latesttag.outputs.result }}
+        tag_name: ${{ env.NEW_TAG }}
+        release_name: Release ${{ env.NEW_TAG }}
         draft: false
         prerelease: false
