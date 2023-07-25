@@ -8,10 +8,10 @@ namespace CodeAugmentor.Repositories
     /// </summary>
     public class UserSettings
     {
-        public string APIKey { get; set; }
-        public string Prompt { get; set; }
+        public string? APIKey { get; set; }
+        public string? Prompt { get; set; }
         public List<Template> Templates { get; set; } = new List<Template>();
-        public string EngineVersion { get; set; }
+        public string? EngineVersion { get; set; }
 
         /// <summary>
         /// Saves the user settings to a JSON file.
@@ -31,7 +31,7 @@ namespace CodeAugmentor.Repositories
             if (File.Exists("userSettings.json"))
             {
                 string json = File.ReadAllText("userSettings.json");
-                return JsonSerializer.Deserialize<UserSettings>(json);
+                return JsonSerializer.Deserialize<UserSettings>(json) ?? new UserSettings();
             }
             return new UserSettings();
         }

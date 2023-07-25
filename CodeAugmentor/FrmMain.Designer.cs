@@ -64,7 +64,7 @@ namespace CodeAugmentor
             cmbEngine.Size = new Size(205, 23);
             cmbEngine.TabIndex = 13;
             cmbEngine.Text = "gpt-3.5-turbo";
-            cmbEngine.SelectedIndexChanged += cmbEngine_SelectedIndexChanged;
+            cmbEngine.SelectedIndexChanged += SelectedIndexChanged_cmbEngine;
             // 
             // lblPrompt
             // 
@@ -84,6 +84,7 @@ namespace CodeAugmentor
             rtbPrompt.Size = new Size(467, 96);
             rtbPrompt.TabIndex = 11;
             rtbPrompt.Text = "";
+            rtbPrompt.TextChanged += TextChanged_rtbPrompt;
             // 
             // txbAPIKey
             // 
@@ -93,6 +94,7 @@ namespace CodeAugmentor
             txbAPIKey.PasswordChar = '*';
             txbAPIKey.Size = new Size(325, 23);
             txbAPIKey.TabIndex = 10;
+            txbAPIKey.TextChanged += TextChanged_txbAPIKey;
             // 
             // lblAPIKey
             // 
@@ -112,7 +114,7 @@ namespace CodeAugmentor
             btnFiles.TabIndex = 8;
             btnFiles.Text = "Files";
             btnFiles.UseVisualStyleBackColor = false;
-            btnFiles.Click += btnFiles_Click;
+            btnFiles.Click += Click_btnFiles;
             // 
             // ofdFiles
             // 
@@ -126,7 +128,7 @@ namespace CodeAugmentor
             cmbTemplates.Name = "cmbTemplates";
             cmbTemplates.Size = new Size(338, 23);
             cmbTemplates.TabIndex = 15;
-            cmbTemplates.SelectedIndexChanged += cmbTemplates_SelectedIndexChanged;
+            cmbTemplates.SelectedIndexChanged += SelectedIndexChanged_cmbTemplates;
             // 
             // btnSaveTemplate
             // 
@@ -137,7 +139,7 @@ namespace CodeAugmentor
             btnSaveTemplate.TabIndex = 16;
             btnSaveTemplate.Text = "Save Template";
             btnSaveTemplate.UseVisualStyleBackColor = false;
-            btnSaveTemplate.Click += btnSaveTemplate_Click;
+            btnSaveTemplate.Click += Click_btnSaveTemplate;
             // 
             // btnRemoveTemplate
             // 
@@ -148,7 +150,7 @@ namespace CodeAugmentor
             btnRemoveTemplate.TabIndex = 17;
             btnRemoveTemplate.Text = "Remove";
             btnRemoveTemplate.UseVisualStyleBackColor = false;
-            btnRemoveTemplate.Click += btnRemoveTemplate_Click;
+            btnRemoveTemplate.Click += Click_btnRemoveTemplate;
             // 
             // FrmMain
             // 

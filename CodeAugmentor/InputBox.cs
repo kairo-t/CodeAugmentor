@@ -25,15 +25,17 @@ namespace CodeAugmentor
 
         public static string Show(string title, string promptText)
         {
-            InputBox form = new InputBox();
-            form.Text = title;
+            InputBox form = new()
+            {
+                Text = title
+            };
             form.lblPrompt.Text = promptText;
             form.ShowDialog();
 
             if (form.DialogResult == DialogResult.OK)
                 return form.InputText;
             else
-                return null;
+                return string.Empty;
         }
     }
 

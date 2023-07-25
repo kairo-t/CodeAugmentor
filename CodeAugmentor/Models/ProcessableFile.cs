@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +15,7 @@ namespace CodeAugmentor.Models
         {
             FilePath = filePath;
             Stage = "Unprocessed";
+            Text = string.Empty;
         }
 
         /// <summary>
@@ -48,5 +49,10 @@ namespace CodeAugmentor.Models
         /// Gets or sets the stage of processing for the file.
         /// </summary>
         public string Stage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the file content.
+        /// </summary>
+        public string Text { get; set; }
     }
 }

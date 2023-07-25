@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +11,12 @@ namespace CodeAugmentor.Models
     /// </summary>
     public class Choice
     {
-        public string Text { get; set; }
+        private string? _text;
+
+        public string Text 
+        { 
+            get { return _text ?? string.Empty; } 
+            set { _text = value; } 
+        }
     }
 }

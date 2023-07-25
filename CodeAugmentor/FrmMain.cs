@@ -9,8 +9,8 @@ namespace CodeAugmentor
     public partial class FrmMain : Form
     {
         // Create a field to store the settings
-        private UserSettings _userSettings;
-        private List<ProcessableFile> _processableFiles = new();
+        private readonly UserSettings _userSettings;
+        private readonly List<ProcessableFile> _processableFiles = new();
 
         /// <summary>
         /// Initializes a new instance of the FrmMain class.
@@ -34,7 +34,7 @@ namespace CodeAugmentor
             cmbEngine.SelectedItem = _userSettings.EngineVersion ?? "gpt-3.5-turbo";
         }
 
-        private async void btnFiles_Click(object sender, EventArgs e)
+        private async void Click_btnFiles(object sender, EventArgs e)
         {
             // Show the file dialog and get selected files
             if (ofdFiles.ShowDialog() == DialogResult.OK)
@@ -70,21 +70,21 @@ namespace CodeAugmentor
             }
         }
 
-        private void txbAPIKey_TextChanged(object sender, EventArgs e)
+        private void TextChanged_txbAPIKey(object sender, EventArgs e)
         {
             // Update the API key in user settings when the API key text box changes
             _userSettings.APIKey = txbAPIKey.Text;
             _userSettings.Save();
         }
 
-        private void rtbPrompt_TextChanged(object sender, EventArgs e)
+        private void TextChanged_rtbPrompt(object sender, EventArgs e)
         {
             // Update the prompt in user settings when the prompt text box changes
             _userSettings.Prompt = rtbPrompt.Text;
             _userSettings.Save();
         }
 
-        private void btnSaveTemplate_Click(object sender, EventArgs e)
+        private void Click_btnSaveTemplate(object sender, EventArgs e)
         {
             // Save the current prompt as a new template.
             string templateName = InputBox.Show("Save Template", "Enter a name for the template:");
@@ -105,23 +105,23 @@ namespace CodeAugmentor
             cmbTemplates.SelectedIndex = cmbTemplates.Items.Count - 1;
         }
 
-        private void cmbTemplates_SelectedIndexChanged(object sender, EventArgs e)
+        private void SelectedIndexChanged_cmbTemplates(object sender, EventArgs e)
         {
             // Load the selected template into the prompt box.
-            string templateName = cmbTemplates.SelectedItem.ToString();
-            Template selectedTemplate = _userSettings.Templates.Find(t => t.Name == templateName);
+            string templateName = cmbTemplates.SelectedItem.ToString() ?? string.Empty;
+            Template selectedTemplate = _userSettings.Templates.Find(t => t.Name == templateName) ?? new Template();
             rtbPrompt.Text = selectedTemplate?.Content ?? string.Empty;
         }
 
-        private void btnRemoveTemplate_Click(object sender, EventArgs e)
+        private void Click_btnRemoveTemplate(object sender, EventArgs e)
         {
             if (cmbTemplates.Items.Count == 0)
             {
                 return;
             }
             // Remove the selected template
-            string templateName = cmbTemplates.SelectedItem.ToString();
-            Template templateToRemove = _userSettings.Templates.Find(t => t.Name == templateName);
+            string templateName = cmbTemplates.SelectedItem.ToString() ?? string.Empty;
+            Template templateToRemove = _userSettings.Templates.Find(t => t.Name == templateName) ?? new Template();
 
             if (templateToRemove != null)
             {
@@ -133,7 +133,7 @@ namespace CodeAugmentor
             }
         }
 
-        private void cmbEngine_SelectedIndexChanged(object sender, EventArgs e)
+        private void SelectedIndexChanged_cmbEngine(object sender, EventArgs e)
         {
             // Update the engine version in user settings when the selected engine version changes
             _userSettings.EngineVersion = cmbEngine.SelectedItem.ToString();
