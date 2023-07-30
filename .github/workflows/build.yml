@@ -30,6 +30,9 @@ jobs:
 
     - name: Publish
       run: dotnet publish --configuration Release --self-contained true --runtime win-x64 --output ./publish
+      
+    - name: Fetch all history for all tags and branches
+      run: git fetch --prune --unshallow
 
     - name: Get latest version tag
       id: get_version
