@@ -21,17 +21,31 @@ namespace CodeAugmentor
             _userSettings = UserSettings.Load();
             txbAPIKey.Text = _userSettings.APIKey;
             // Load the saved templates into the combo box
-            foreach (var template in _userSettings.Templates)
+            foreach (Template template in _userSettings.Templates)
             {
                 cmbTemplates.Items.Add(template.Name);
             }
-
+            List<string> engines = OpenAIApiClient.GetModelsAsync(txbAPIKey.Text).Result;
+            if (engines.Count == 0)
+            {
+                engines = new()
+                {
+                    "gpt-3.5-turbo",
+                    "gpt-3.5-turbo-16k",
+                    "gpt-4",
+                    "gpt-4-32k",
+                };
+            }
+            foreach (string engine in engines.OrderBy(a => a))
+            {
+                cmbEngine.Items.Add(engine);
+            }
             // Select the first template if any templates were loaded
             if (cmbTemplates.Items.Count > 0)
             {
                 cmbTemplates.SelectedIndex = 0;
             }
-            cmbEngine.SelectedItem = _userSettings.EngineVersion ?? "gpt-3.5-turbo";
+            cmbEngine.SelectedItem = _userSettings.EngineVersion ?? engines.FirstOrDefault();
         }
 
         private async void Click_btnFiles(object sender, EventArgs e)

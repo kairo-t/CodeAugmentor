@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -28,6 +29,40 @@ namespace CodeAugmentor.Repositories
             _model = model;
         }
 
+        public static async Task<List<string>> GetModelsAsync(string apiKey)
+        {
+            try
+            {
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + apiKey);
+                client.DefaultRequestHeaders.Add("User-Agent", "C# App");
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var httpResponse = await client.GetAsync("https://api.openai.com/v1/models").ConfigureAwait(false);
+                httpResponse.EnsureSuccessStatusCode();
+
+                var response = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                var document = JsonDocument.Parse(response);
+                var root = document.RootElement;
+                var data = root.GetProperty("data");
+
+                var modelIds = new List<string>();
+                foreach (var item in data.EnumerateArray())
+                {
+                    var id = item.GetProperty("id").GetString();
+                    modelIds.Add(id);
+                }
+
+                return modelIds;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return new();
+        }
+
         /// <summary>
         /// Calls the OpenAI API with the given prompt and returns the response.
         /// </summary>
@@ -38,23 +73,23 @@ namespace CodeAugmentor.Repositories
             using HttpClient client = new();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
             client.Timeout = new(0, 15, 0);
-            int tokens = 1024;
-            if (_model == "gpt-3.5")
-            {
-                tokens *= 3;
-            }
-            if (_model == "gpt-3.5-turbo-16k")
-            {
-                tokens *= 12;
-            }
-            if (_model == "gpt-4")
-            {
-                tokens *= 6;
-            }
-            if (_model == "gpt-4-32k")
-            {
-                tokens *= 24;
-            }
+            //int tokens = 1024;
+            //if (_model == "gpt-3.5")
+            //{
+            //    tokens *= 3;
+            //}
+            //if (_model == "gpt-3.5-turbo-16k")
+            //{
+            //    tokens *= 12;
+            //}
+            //if (_model == "gpt-4")
+            //{
+            //    tokens *= 6;
+            //}
+            //if (_model == "gpt-4-32k")
+            //{
+            //    tokens *= 24;
+            //}
             var data = new
             {
                 model = _model,
@@ -62,7 +97,7 @@ namespace CodeAugmentor.Repositories
                 {
                         new { role = "user", content = prompt }
                     },
-                max_tokens = tokens,
+                //max_tokens = tokens,
             };
 
             var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");

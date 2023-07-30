@@ -58,7 +58,6 @@ namespace CodeAugmentor
             // 
             cmbEngine.BackColor = Color.WhiteSmoke;
             cmbEngine.FormattingEnabled = true;
-            cmbEngine.Items.AddRange(new object[] { "gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-4", "gpt-4-32k" });
             cmbEngine.Location = new Point(274, 42);
             cmbEngine.Name = "cmbEngine";
             cmbEngine.Size = new Size(205, 23);
